@@ -14,14 +14,61 @@
       canvas {
         display: block;
       }
+      #menu {
+        position: fixed;
+        bottom: 10px;
+        right: 10px;
+        background: rgba(0, 0, 0, 0.5);
+        padding: 5px;
+        border-radius: 4px;
+        z-index: 1000;
+      }
+      #menu select {
+        background: rgba(0, 0, 0, 0.7);
+        color: white;
+        border: 1px solid #333;
+        padding: 2px;
+        font-size: 12px;
+        border-radius: 3px;
+      }
     </style>
   </head>
   <body>
+    <div id="menu">
+      <select id="sceneSelector">
+        <option value="grass-scene">0</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
+        <option value="7">7</option>
+        <option value="8">8</option>
+        <option value="9">9</option>
+      </select>
+    </div>
+
     <script type="module">
-      import { GrassScene } from './src/grass-scene.js';
-      
-      // Create the scene when the page loads
-      new GrassScene();
+      let currentScene = null;
+
+      async function loadScene(sceneName) {
+        if (currentScene) {
+          currentScene.dispose?.();
+          document.querySelector('canvas')?.remove();
+        }
+
+        const module = await import(`./src/${sceneName}.js`);
+        currentScene = new module.GrassScene();
+      }
+
+      // Initialize with default scene
+      loadScene('grass-scene');
+
+      // Handle scene changes
+      document.getElementById('sceneSelector').addEventListener('change', (e) => {
+        loadScene(e.target.value);
+      });
     </script>
   </body>
 </html>
