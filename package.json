@@ -1,0 +1,14 @@
+{
+  "dependencies": {
+    "three": "^0.171.0"
+  },
+  "devDependencies": {
+    "prettier": "^3.4.2",
+    "vite": "^6.0.6"
+  },
+  "scripts": {
+    "dev": "vite",
+    "format": "prettier --write .",
+    "format:check": "prettier --check ."
+  }
+}
